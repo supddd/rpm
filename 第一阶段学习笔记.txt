@@ -1,0 +1,184 @@
+列出内核版本
+[root@svr7 桌面]# uname -r
+3.10.0-327.el7.x86_64
+
+[root@svr7 桌面]# cat  /etc/redhat-release
+
+[root@svr7 桌面]# cat  -n  /etc/redhat-release
+[root@svr7 桌面]# cat  -n  /etc/shells
+[root@svr7 桌面]# cat  -n  /etc/passwd
+
+
+
+列出当前系统的主机名称
+[root@localhost ～]# hostname
+
+同时hostname  lljik   就可以改成lljik了！！！
+
+
+关机  poweroff         立即关机
+   还有  
+shutdown -h now  这个可以定时关机
+
+还原三台虚拟机器
+[root@room9pc01 ~]# rht-vmctl reset classroom
+[root@room9pc01 ~]# rht-vmctl reset server
+[root@room9pc01 ~]# rht-vmctl reset desktop
+
+
+
+
+
+
+
+命令行的一般格式
+• 基本用法
+– 命令字    [选项]...      [参数1]     [参数2]...
+– Ctrl + l:清空整个屏幕
+– Ctrl + u:清空至行首
+– Ctrl + w:往回删除一个单词(以空格界定)
+
+
+
+
+ 挂载：       挂载的作用：提供设备的访问点
+mount  /dev/cdrom   /dvd
+mount: /dev/sr0 写保护，将以只读方式挂载   
+挂载到/mnt，并且还能访问：
+mount -o loop  /xxx/cengos.iso  /mnt
+mount -o loop # 意思是，指定挂载选项为loop，告诉系统用回环设备来模拟一个块设备
+
+fstab：
+
+配置文件 /etc/fstab 的记录格式
+  设备路径            挂载点          类型        参数         备份标记    检测顺序
+
+Fstab是内核在启动时用来挂载文件系统的文件系统表，简而言之，您将在硬盘驱动器上创建一个或多个分区，并在 fstab 中为每个分区创建一个条目，该条目将在引导时由内核读取并自动挂载文件系统。
+
+默认情况下，您在操作系统安装期间创建的任何分区都将自动添加到 fstab 文件中
+
+
+这个是虚拟机自带了光驱，
+linux中，/dev/sr0，表示系统的第一个光驱设备，后面的，为sr1，sr2，
+挂载成功后，重启又没有了
+mount -o loop /dev/sr0  /mnt/cdrom
+要永久挂载，要到/etc/fstab里面修改
+vim /etc/fatab，再最后一行加上
+/dev/sr0  /mnt/cdrom  iso9660 defaults 0   0  
+
+
+
+
+别名：
+root@nsd ~]# alias  hn='hostname'      #定义别名
+[root@nsd ~]# alias  myls='ls   -lh'    #定义别名
+
+
+~/目录，就是当前用户的主目录，相当于/root  或者/home/lljik/
+
+cp -r   /目录1    /目录2   /目录3     /目标目录
+把目录123都复制进目标目录
+
+一般复制文件夹的时候要 cp -r
+同时cp 也是有别名的，！！！！！！
+
+
+
+ wget 软件包的URL网址 -O /目录路径/新文件名
+# wget http://classroom.example.com/content/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm
+
+
+
+server与 desktop  用户root密码 为redhat
+
+还原三台虚拟机器
+[root@room9pc01 ~]# rht-vmctl reset classroom
+[root@room9pc01 ~]# rht-vmctl reset server
+[root@room9pc01 ~]# rht-vmctl reset desktop
+
+
+
+配置永久IP地址，子网掩码，网关地址
+
+ /etc/sysconfig/network-scripts/ifcfg-eth0 网卡配置文件
+1.查询识别的网卡名称
+[root@A ~]# nmcli connection show
+
+2.配置IP地址，子网掩码，网关地址
+# nmcli   connection   modify   'System eth0'     
+ ipv4.method   manual                                    
+ ipv4.addresses   '172.25.0.100/24   172.25.0.254'       
+ connection.autoconnect   yes 
+
+  nmcli connection 修改网络配置  '网卡名'
+  ipv4.方法  手工配置
+  ipv4.地址  'IP地址/子网掩码    网关地址'
+    每次开机自动启用配置
+
+
+ 
+
+min-centos 中，配置网卡
+cd /etc/sysconfig/network-scripts/
+ls  找到类似  
+ifcfg-ens33
+vi ifcfg-ens33  
+先修改：BOOTPROTO=DHCP  h或者static（小写）
+ONBOOT=yes
+再继续下面添加：网关  ip地址 子网掩码 dns
+GATEWAY=
+IPADDR=
+NETMASK=
+DNS1=
+DNS2=
+DNS3=
+
+
+date 显示当前日期及现在时间
+修改：
+date -s   "2024-04-13  15：34：10“    ##中文输入法，复制可能不管用！！
+将时间改成现在的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
